@@ -14,7 +14,7 @@ def evaluate(model, dataloader, criterion, device):
             total_count += label.size(0)
     return total_acc / total_count, total_loss
 
-ef train(model, criterion, optimizer, train_loader, val_loader, epochs, model_path="model.pth"):
+def train(model, criterion, optimizer, train_loader, val_loader, epochs, model_path="model.pth"):
     best_val_acc = 0.0
     results = {'train_loss': [], 'validation_loss': [], 'accuracy': []}
 
