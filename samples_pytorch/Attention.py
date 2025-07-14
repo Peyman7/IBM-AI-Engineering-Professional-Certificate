@@ -3,8 +3,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class PositionalEncoding(nn.Module):
-    def __init__(self, max_len, n_dim):
+    def __init__(self, max_len, n_dim, dropout=0.1):
         super(PositionalEncoding, self).__init__()
+        self.dropout = nn.Dropout(dropout)
+        
         pe = torch.zeros(max_len, n_dim)
         position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
         div_term = torch.exp(torch.arange(0, n_dim, 2).float() * (-torch.log(torch.tensor(10000.0)) / n_dim))
@@ -16,7 +18,9 @@ class PositionalEncoding(nn.Module):
         # x shape: [batch_size, seq_len, n_dim]
         seq_len = x.size(1)
         return x + self.pe[:seq_len].unsqueeze(0)  # shape: [1, seq_len, n_dim]
-
+        
+        
+        
 class AttentionHead(nn.Module):
     def __init__(self, vocab_size, n_dim, max_len=100):
         super(AttentionHead, self).__init__()
@@ -40,8 +44,8 @@ class AttentionHead(nn.Module):
 
         out = attn_weights @ v  # [batch_size, seq_len, n_dim]
         return out, attn_weights
-
-
+        
+        
 vocab_size = 1000
 n_dim = 16
 model = AttentionHead(vocab_size, n_dim)
