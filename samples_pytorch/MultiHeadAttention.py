@@ -11,6 +11,7 @@ class PositionalEncoding(nn.Module):
         
         pe = torch.zeros(max_len, n_dim)
         position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
+        ### using the original positional encoding formula in Vasani et al, 2017
         div_term = torch.exp(torch.arange(0, n_dim, 2).float() * (-torch.log(torch.tensor(10000.0)) / n_dim))
         pe[:, 0::2] = torch.sin(position * div_term)
         pe[:, 1::2] = torch.cos(position * div_term)
