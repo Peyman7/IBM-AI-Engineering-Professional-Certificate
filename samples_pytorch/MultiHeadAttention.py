@@ -67,7 +67,17 @@ class TransformerBlock(nn.Module):
         x = self.norm(attn_out + x)
         return x, weights
         
-        
+
+class Classification(nn.Module):
+    def __init__(self, vocab_size, n_dim, n_heads, num_classes):
+        super(Classification, self).__init()__
+        self.encoder = TransformerBlock(vocab_size, n_dim, n_heads)
+        self.classifier == nn.Linear(n_dim, num_classes)
+    
+    def forward(self, x):
+        x, _ = self.encoder(x)
+        x = x.mean(dim=1)
+        return self.classifier(x)
         
 ###################################
 ## initial testing ##
